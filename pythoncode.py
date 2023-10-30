@@ -1,28 +1,42 @@
-# Import necessary libraries
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
 
-# Create a synthetic dataset
-np.random.seed(0)
-X = 2 * np.random.rand(100, 1)  # Feature
-y = 4 + 3 * X + np.random.randn(100, 1)  # Target variable
+# Load the CSV data from the path using Pandas
+df = pd.read_csv('TSLA.csv')
 
-# Split the dataset into a training set and a test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Date in df is stored as a string, so we need to convert it to DateTime input
+df['Date'] = pd.to_datetime(df['Date'])
 
-# Create and train the linear regression model
-lin_reg = LinearRegression()
-lin_reg.fit(X_train, y_train)
+# Input is Date => X = Date
+# Output is price => Y = Close Price
+# Linear regression works with numerical features, so we need to convert DateTime to timestamps
 
-# Make predictions on the test set
-y_pred = lin_reg.predict(X_test)
+X = np.arange(1, len(df) +1).reshape(-1, 1)
+Y = df['Close'].values.reshape(-1, 1)
 
-# Visualize the training data and regression line
-plt.scatter(X_train, y_train, label='Training Data')
-plt.plot(X_test, y_pred, color='red', linewidth=2, label='Linear Regression Model')
-plt.xlabel('Feature')
-plt.ylabel('Target Variable')
-plt.legend()
+# Create a linear regression model
+linear_regressor = LinearRegression()
+
+# Perform linear regression
+linear_regressor.fit(X, Y)
+
+# Make predictions
+Y_pred = linear_regressor.predict(X)
+
+# Calculate Mean Absolute Error (MAE)
+mae = mean_absolute_error(Y, Y_pred)
+
+# Create the scatterplot
+plt.scatter(X, Y)
+plt.plot(X, Y_pred, color='red')
+plt.xlabel('Date (Days after Initial Date)')
+plt.ylabel('Close Price')
+
+# Show the plot
 plt.show()
+
+# Print the MAE value
+print(f"Mean Absolute Error (MAE): {mae:.2f}")
