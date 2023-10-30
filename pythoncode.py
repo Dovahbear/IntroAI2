@@ -41,10 +41,10 @@ plt.plot(X, Y_pred, color='red')
 plt.xlabel('Date (Days after Initial Date)')
 plt.ylabel('Close Price')
 
-# Show the plot
-plt.show()
-
 # Print the MAE, MSE, and R² values
 print(f"Mean Absolute Error (MAE): {mae:.2f}")
 print(f"Mean Squared Error (MSE): {mse:.2f}")
 print(f"R-squared (R²) Value: {r2:.2f}")
+
+# Show the plot
+plt.show()
