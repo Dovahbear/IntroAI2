@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+#ReadMe for more info
+
 # Load the CSV data from the path using Pandas
 df = pd.read_csv('TSLA.csv')
 
